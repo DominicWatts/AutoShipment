@@ -1,9 +1,9 @@
 {
     "name": "dominicwatts/autoshipment",
-    "description": "",
+    "description": "Automatically ship orders on cron or via console script",
     "type": "magento2-module",
     "license": "proprietary",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Dominic Xigen",
