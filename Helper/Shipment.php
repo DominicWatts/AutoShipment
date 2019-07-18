@@ -158,15 +158,17 @@ class Shipment extends AbstractHelper
             }
             $orderShipment->register();
             $orderShipment->getOrder()->setIsInProcess(true);
-            // Save created Order Shipment
+            
             $orderShipment->save();
             $orderShipment->getOrder()->save();
-            $orderShipment->save();
 
             if ($doNotify) {
                 $this->objectManager->create(\Magento\Shipping\Model\ShipmentNotifier::class)
                     ->notify($orderShipment);
             }
+            
+            $order->addStatusToHistory($order->getStatus(), 'Order has been marked as complete');
+            $order->save();
 
             return true;
         } catch (\Exception $e) {
