@@ -13,11 +13,13 @@ use Magento\Sales\Setup\SalesSetupFactory;
  */
 class InstallData implements InstallDataInterface
 {
+    /**
+     * @var SalesSetupFactory
+     */
     private $salesSetupFactory;
 
     /**
      * Constructor
-     *
      * @param \Magento\Sales\Setup\SalesSetupFactory $salesSetupFactory
      */
     public function __construct(SalesSetupFactory $salesSetupFactory)
@@ -34,7 +36,7 @@ class InstallData implements InstallDataInterface
     ) {
         $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
         $salesSetup->addAttribute(
-            'order',
+            \Magento\Sales\Model\Order::ENTITY,
             'prevent_automatic_shipment',
             [
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,

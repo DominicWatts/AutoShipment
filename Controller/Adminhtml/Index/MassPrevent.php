@@ -8,13 +8,21 @@ namespace Xigen\AutoShipment\Controller\Adminhtml\Index;
  */
 class MassPrevent extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\Framework\View\Result\PageFactory
+     */
     protected $resultPageFactory;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Backend\App\Action\Context  $context
+     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
+     */
+    protected $orderCollectionFactory;
+
+    /**
+     * MassPrevent constructor.
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,

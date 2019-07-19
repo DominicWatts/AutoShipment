@@ -12,7 +12,7 @@ class AutoShip
      * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
-    
+
     /**
      * @var \Xigen\AutoShipment\Helper\Shipment
      */
@@ -24,8 +24,10 @@ class AutoShip
     protected $dateTime;
 
     /**
-     * Constructor
+     * AutoShip constructor.
      * @param \Psr\Log\LoggerInterface $logger
+     * @param \Xigen\AutoShipment\Helper\Shipment $shipmentHelper
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
      */
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
