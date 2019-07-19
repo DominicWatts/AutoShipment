@@ -10,8 +10,8 @@ use Magento\Framework\App\Helper\AbstractHelper;
  */
 class Shipment extends AbstractHelper
 {
-    const PREVENT_SHIPMENT_NO   = 2;
-    const PREVENT_SHIPMENT_YES  = 1;
+    const PREVENT_SHIPMENT_NO = 2;
+    const PREVENT_SHIPMENT_YES = 1;
 
     const SEND_EMAIL_NO = 0;
     const SEND_EMAIL_YES = 1;
@@ -46,9 +46,18 @@ class Shipment extends AbstractHelper
     protected $searchCriteriaBuilder;
 
     /**
-     * Undocumented function
+     * @var \Magento\Framework\App\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * Shipment constructor.
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Sales\Model\Convert\Order $convertOrder
+     * @param \Magento\Sales\Model\OrderRepository $orderRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -82,7 +91,7 @@ class Shipment extends AbstractHelper
             ->addAttributeToFilter(
                 'created_at',
                 [
-                   'from' => [
+                    'from' => [
                         date("Y-m-d h:i:s", strtotime("-$from days"))
                     ],
                     'to' => [
@@ -90,13 +99,13 @@ class Shipment extends AbstractHelper
                     ],
                 ]
             );
-                
+
         return $collection;
     }
 
     public function shipOrders()
     {
-        // ship and notifify recent orders
+        // ship and notify recent orders
         $recentOrders = $this->shipmentHelper
             ->orderCollection(self::ORDERS_RECENT, self::ORDERS_NOW);
         foreach ($recentOrders as $order) {
@@ -117,18 +126,18 @@ class Shipment extends AbstractHelper
      * @param string $incrementId
      * @return \Magento\Sales\Model\Data\Order
      */
-    public function getOrderByIncremntId($incrementId = null)
+    public function getOrderByIncrementId($incrementId = null)
     {
         if (!$incrementId) {
             return false;
         }
 
         $searchCriteria = $this->searchCriteriaBuilder
-                ->addFilter('increment_id', $incrementId, 'eq')
-                ->create();
+            ->addFilter('increment_id', $incrementId, 'eq')
+            ->create();
         $order = $this->orderRepository
-                ->getList($searchCriteria)
-                ->getFirstItem();
+            ->getList($searchCriteria)
+            ->getFirstItem();
         if ($order && $order->getId()) {
             return $order;
         }
@@ -139,6 +148,7 @@ class Shipment extends AbstractHelper
      * Mark order as shipped
      * @param \Magento\Sales\Model\Order $order
      * @param boolean $doNotify
+     * @return bool
      */
     public function markAsShipped($order, $doNotify = true)
     {
@@ -158,7 +168,7 @@ class Shipment extends AbstractHelper
             }
             $orderShipment->register();
             $orderShipment->getOrder()->setIsInProcess(true);
-            
+
             $orderShipment->save();
             $orderShipment->getOrder()->save();
 
@@ -167,7 +177,7 @@ class Shipment extends AbstractHelper
                     ->notify($orderShipment);
                 $orderShipment->save();
             }
-            
+
             $order->addStatusToHistory($order->getStatus(), 'Order has been marked as complete');
             $order->save();
 
