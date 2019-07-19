@@ -165,6 +165,7 @@ class Shipment extends AbstractHelper
             if ($doNotify) {
                 $this->objectManager->create(\Magento\Shipping\Model\ShipmentNotifier::class)
                     ->notify($orderShipment);
+                $orderShipment->save();
             }
             
             $order->addStatusToHistory($order->getStatus(), 'Order has been marked as complete');
