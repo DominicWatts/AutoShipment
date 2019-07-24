@@ -86,7 +86,7 @@ class AutoShip extends Command
             }
         } elseif ($all) {
             $this->output->writeln((string) __('%1 Start Processing orders', $this->dateTime->gmtDate()));
-            // $this->shipmentHelper->shipOrders();
+            $this->shipmentHelper->shipOrders();
             $this->output->writeln((string) __('%1 Finish Processing orders', $this->dateTime->gmtDate()));
         }
     }
