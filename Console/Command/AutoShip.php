@@ -74,15 +74,22 @@ class AutoShip extends Command
         $all = $input->getArgument(self::ALL_ARGUMENT) ?: false;
 
         if ($orderId) {
-            $this->output->writeln((string) __('%1 Processing order <info>%2</info>', $this->dateTime->gmtDate(),
-                $orderId));
+            $this->output->writeln((string) __(
+                '%1 Processing order <info>%2</info>',
+                $this->dateTime->gmtDate(),
+                $orderId
+            ));
             $order = $this->shipmentHelper
                 ->getOrderByIncrementId($orderId);
             if ($order) {
                 $shipped = $this->shipmentHelper->markAsShipped($order, (bool) $doNotify);
                 $message = $shipped ? '[success]' : '[failure]';
-                $this->output->writeln((string) __('%1 <info>%2</info> shipping order %3', $this->dateTime->gmtDate(),
-                    $message, $orderId));
+                $this->output->writeln((string) __(
+                    '%1 <info>%2</info> shipping order %3',
+                    $this->dateTime->gmtDate(),
+                    $message,
+                    $orderId
+                ));
             }
         } elseif ($all) {
             $this->output->writeln((string) __('%1 Start Processing orders', $this->dateTime->gmtDate()));
