@@ -3,7 +3,7 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="AutoShip" xsi:type="object">Xigen\AutoShipment\Console\Command\AutoShip</item>
+                <item name="AutoShip_AutoShip" xsi:type="object">Xigen\AutoShipment\Console\Command\AutoShip</item>
             </argument>
         </arguments>
     </type>
